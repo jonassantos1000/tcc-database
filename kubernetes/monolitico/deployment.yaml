@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-monolitico
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres-monolitico
+  template:
+    metadata:
+      labels:
+        app: postgres-monolitico
+    spec:
+      containers:
+        - name: postgres-monolitico
+          image: postgres:15
+          args:
+            - "-c"
+            - "max_connections=5000"
+          env:
+            - name: POSTGRES_DB
+              value: db-monolitico
+            - name: POSTGRES_USER
+              value: postgres-monolitico
+            - name: POSTGRES_PASSWORD
+              value: masterkey
+          ports:
+            - containerPort: 5432
